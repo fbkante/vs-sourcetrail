@@ -63,5 +63,10 @@ namespace VCProjectEngineWrapper
 		{
 			return _wrapped.IncludeDirectories.SplitPaths();
 		}
+
+		public string GetName()
+		{
+			return _wrapped.Name;
+		}
 	}
 }

@@ -44,7 +44,7 @@ namespace CoatiSoftware.SourcetrailExtension.Utility
 
 			foreach (string line in command.SerializeToJson().Split('\n'))
 			{
-				serializedCommand += "  " + line + "\n";
+				serializedCommand += "  " + line.TrimEnd() + "\n";
 			}
 
 			serializedCommand = serializedCommand.TrimEnd('\n');

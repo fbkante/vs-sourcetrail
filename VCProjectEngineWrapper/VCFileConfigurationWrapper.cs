@@ -81,5 +81,9 @@ namespace VCProjectEngineWrapper
 #endif
 				(tool);
 		}
+		public string GetName()
+		{
+			return _wrapped.Name;
+		}
 	}
 }

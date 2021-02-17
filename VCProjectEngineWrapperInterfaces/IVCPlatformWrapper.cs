@@ -23,5 +23,6 @@ namespace VCProjectEngineWrapper
 
 		string GetExecutableDirectories();
 		string[] GetIncludeDirectories();
+		string GetName();
 	}
 }

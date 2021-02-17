@@ -23,5 +23,6 @@ namespace VCProjectEngineWrapper
 
 		bool GetExcludedFromBuild();
 		IVCCLCompilerToolWrapper GetCLCompilerTool();
+		string GetName();
 	}
 }

@@ -152,13 +152,15 @@ namespace CoatiSoftware.SourcetrailExtension.SolutionParser
 				}
 				Logging.Logging.LogInfo("Found C++ standard \"" + cppStandard + "\".");
 
-				bool isMakefileProject = vcProjectConfiguration.isMakefileConfiguration();
-
 				// create command objects for all applicable project items
 				{
+					bool isMakefileProject = vcProjectConfiguration.isMakefileConfiguration();
+					//比較用に|を加えておく
+					string platname = "|" + vcProjectConfiguration.GetPlatform().GetName();
+
 					foreach (ProjectItem item in Utility.ProjectUtility.GetProjectItems(project))
 					{
-						CompileCommand command = CreateCompileCommand(item, commandFlags, cppStandard, cStandard, isMakefileProject);
+						CompileCommand command = CreateCompileCommand(item, commandFlags, cppStandard, cStandard, isMakefileProject, platname);
 						if (command == null)
 						{
 							continue;
@@ -178,7 +180,7 @@ namespace CoatiSoftware.SourcetrailExtension.SolutionParser
 			}
 		}
 
-		private CompileCommand CreateCompileCommand(ProjectItem item, string commandFlags, string vcStandard, string cStandard, bool isMakefileProject)
+		private CompileCommand CreateCompileCommand(ProjectItem item, string commandFlags, string vcStandard, string cStandard, bool isMakefileProject, string platname)
 		{
 			Logging.Logging.LogInfo("Starting to create Command Object from item \"" + Logging.Obfuscation.NameObfuscator.GetObfuscatedName(item.Name) + "\"");
 			try
@@ -200,6 +202,11 @@ namespace CoatiSoftware.SourcetrailExtension.SolutionParser
 					{
 						if (vcFileConfiguration != null && vcFileConfiguration.isValid())
 						{
+							//プラットフォームが一致しないものは無視する
+							if (!vcFileConfiguration.GetName().EndsWith(platname))
+							{
+								continue;
+							}
 							if (vcFileConfiguration.GetExcludedFromBuild())
 							{
 								Logging.Logging.LogInfo("Discarding item because it is excluded from build.");
